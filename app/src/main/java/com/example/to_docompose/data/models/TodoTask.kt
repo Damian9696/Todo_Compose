@@ -1,6 +1,5 @@
 package com.example.to_docompose.data.models
 
-import androidx.compose.ui.unit.Constraints
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.to_docompose.util.Constants
