@@ -4,4 +4,7 @@
     <!--List screen-->
     <string name="add_button">Add button</string>
     <string name="tasks">Tasks</string>
+    <string name="search_tasks">Search Tasks</string>
+    <string name="sort_tasks">Sort tasks</string>
+    <string name="delete_all">Delete all</string>
 </resources>
