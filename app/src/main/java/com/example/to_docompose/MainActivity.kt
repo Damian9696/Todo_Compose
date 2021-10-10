@@ -3,28 +3,30 @@ package com.example.to_docompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.to_docompose.navigation.SetupNavigation
 import com.example.to_docompose.ui.theme.TodoComposeTheme
+import com.example.to_docompose.ui.viewmodels.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private lateinit var navHostController: NavHostController
+    private val sharedViewModel: SharedViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override
+    fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             TodoComposeTheme {
                 navHostController = rememberNavController()
-                SetupNavigation(navHostController = navHostController)
+                SetupNavigation(
+                    navHostController = navHostController,
+                    sharedViewModel = sharedViewModel
+                )
             }
         }
     }
