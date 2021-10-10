@@ -22,21 +22,40 @@ import com.example.to_docompose.R
 import com.example.to_docompose.components.PriorityItem
 import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.ui.theme.*
+import com.example.to_docompose.ui.viewmodels.SharedViewModel
+import com.example.to_docompose.util.SearchAppBarState
+import com.example.to_docompose.util.TrailingIconState
 
 @Composable
-fun ListAppbar() {
-//    DefaultListAppBar(
-//        onSearchClicked = {},
-//        onSortClicked = {},
-//        onDeleteClicked = {}
-//    )
-    SearchAppBar(
-        text = "",
-        onTextChange = {},
-        onCloseClicked = {},
-        onSearchClick = {}
-    )
-
+fun ListAppbar(
+    sharedViewModel: SharedViewModel,
+    searchAppBarState: SearchAppBarState,
+    searchTextState: String
+) {
+    when (searchAppBarState) {
+        SearchAppBarState.CLOSED -> {
+            DefaultListAppBar(
+                onSearchClicked = {
+                    sharedViewModel.searchAppBarState.value = SearchAppBarState.OPENED
+                },
+                onSortClicked = {},
+                onDeleteClicked = {}
+            )
+        }
+        else -> {
+            SearchAppBar(
+                text = searchTextState,
+                onTextChange = { newText ->
+                    sharedViewModel.searchTextState.value = newText
+                },
+                onCloseClicked = {
+                    sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
+                    sharedViewModel.searchTextState.value = ""
+                },
+                onSearchClick = {}
+            )
+        }
+    }
 }
 
 @Composable
@@ -78,7 +97,7 @@ fun ListAppBarActions(
 fun SearchAction(
     onSearchClicked: () -> Unit
 ) {
-    IconButton(onClick = { onSearchClicked }) {
+    IconButton(onClick = { onSearchClicked() }) {
         Icon(
             imageVector = Icons.Filled.Search,
             contentDescription = stringResource(R.string.search_tasks),
@@ -167,6 +186,11 @@ fun SearchAppBar(
     onCloseClicked: () -> Unit,
     onSearchClick: (String) -> Unit
 ) {
+
+//    var trailingIconState by remember {
+//        mutableStateOf(TrailingIconState.READY_TO_DELETE)
+//    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -207,7 +231,25 @@ fun SearchAppBar(
             trailingIcon = {
                 IconButton(
                     onClick = {
-                        onCloseClicked()
+                        if (text.isNotEmpty()) {
+                            onTextChange("")
+                        } else {
+                            onCloseClicked()
+                        }
+//                        when (trailingIconState) {
+//                            TrailingIconState.READY_TO_DELETE -> {
+//                                onTextChange("")
+//                                trailingIconState = TrailingIconState.READY_TO_CLOSE
+//                            }
+//                            TrailingIconState.READY_TO_CLOSE -> {
+//                                if (text.isNotEmpty()) {
+//                                    onTextChange("")
+//                                } else {
+//                                    onCloseClicked()
+//                                    trailingIconState = TrailingIconState.READY_TO_DELETE
+//                                }
+//                            }
+//                        }
                     }
                 ) {
                     Icon(
