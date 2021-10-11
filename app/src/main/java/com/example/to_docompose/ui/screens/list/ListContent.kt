@@ -2,6 +2,8 @@ package com.example.to_docompose.ui.screens.list
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,9 +19,25 @@ import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.data.models.TodoTask
 import com.example.to_docompose.ui.theme.*
 
+@ExperimentalMaterialApi
 @Composable
-fun ListContent() {
-
+fun ListContent(
+    listOfTodoTask: List<TodoTask>,
+    navigateToTaskScreen: (taskId: Int) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = listOfTodoTask,
+            key = { todoTask ->
+                todoTask.id
+            }
+        ) { todoTask ->
+            TaskItem(
+                todoTask = todoTask,
+                navigateToTaskScreen = navigateToTaskScreen
+            )
+        }
+    }
 }
 
 @ExperimentalMaterialApi
