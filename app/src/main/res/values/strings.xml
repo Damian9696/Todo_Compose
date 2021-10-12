@@ -12,4 +12,6 @@
     <string name="close_icon">Close icon</string>
     <string name="sad_face_icon">Sad face icon</string>
     <string name="no_tasks_have_been_added_yet">no tasks have been added yet.</string>
+    <string name="add_task">Add Task</string>
+    <string name="back_arrow">Back Arrow</string>
 </resources>
