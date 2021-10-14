@@ -18,8 +18,18 @@ import com.example.to_docompose.ui.theme.topAppBarContentColor
 import com.example.to_docompose.util.Action
 
 @Composable
-fun TaskAppBar(navigateToListScreen: (Action) -> Unit) {
-    NewTaskAppBar(navigateToListScreen = navigateToListScreen)
+fun TaskAppBar(
+    selectedTask: TodoTask?,
+    navigateToListScreen: (Action) -> Unit
+) {
+    if (selectedTask == null) {
+        NewTaskAppBar(navigateToListScreen = navigateToListScreen)
+    } else {
+        ExistingTaskAppBar(
+            selectedTask = selectedTask,
+            navigateToListScreen = navigateToListScreen
+        )
+    }
 }
 
 @Composable
