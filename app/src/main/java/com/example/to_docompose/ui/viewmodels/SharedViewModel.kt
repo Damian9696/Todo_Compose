@@ -77,4 +77,8 @@ class SharedViewModel @Inject constructor(private val todoRepository: TodoReposi
             title.value = newTitle
         }
     }
+
+    fun validateFields(): Boolean{
+        return title.value.isNotEmpty() && description.value.isNotEmpty()
+    }
 }
