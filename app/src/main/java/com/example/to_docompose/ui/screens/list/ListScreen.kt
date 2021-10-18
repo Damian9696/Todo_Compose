@@ -88,7 +88,7 @@ fun DisplaySnackBar(
         if (action != Action.NO_ACTION) {
             scope.launch {
                 val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
-                    message = "${action.name} $taskTitle",
+                    message = "${action.name}: $taskTitle",
                     actionLabel = "Ok"
                 )
             }
