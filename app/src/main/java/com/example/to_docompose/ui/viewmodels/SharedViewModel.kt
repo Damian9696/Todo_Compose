@@ -7,10 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.data.models.TodoTask
 import com.example.to_docompose.data.repositories.TodoRepository
+import com.example.to_docompose.util.Action
 import com.example.to_docompose.util.Constants.MAX_TITLE_LENGTH
 import com.example.to_docompose.util.RequestState
 import com.example.to_docompose.util.SearchAppBarState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
@@ -25,6 +27,7 @@ class SharedViewModel @Inject constructor(private val todoRepository: TodoReposi
     val title: MutableState<String> = mutableStateOf("")
     val description: MutableState<String> = mutableStateOf("")
     val priority: MutableState<Priority> = mutableStateOf(Priority.LOW)
+    val action: MutableState<Action> = mutableStateOf(Action.NO_ACTION)
 
     val searchAppBarState: MutableState<SearchAppBarState> =
         mutableStateOf(SearchAppBarState.CLOSED)
@@ -78,7 +81,42 @@ class SharedViewModel @Inject constructor(private val todoRepository: TodoReposi
         }
     }
 
-    fun validateFields(): Boolean{
+    fun validateFields(): Boolean {
         return title.value.isNotEmpty() && description.value.isNotEmpty()
+    }
+
+    private fun addTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val todoTask = TodoTask(
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            todoRepository.addTask(todoTask = todoTask)
+        }
+    }
+
+    fun handleDatabaseActions(action: Action) {
+        when (action) {
+            Action.ADD -> {
+                addTask()
+            }
+            Action.UPDATE -> {
+                //todo implement update
+            }
+            Action.DELETE -> {
+                //todo implement delete
+            }
+            Action.DELETE_ALL -> {
+                //todo implement delete all
+            }
+            Action.UNDO -> {
+                //todo implement undo
+            }
+            else -> {
+                //todo implement else case
+            }
+        }
+        this.action.value = Action.NO_ACTION
     }
 }
