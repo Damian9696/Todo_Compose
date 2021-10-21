@@ -108,6 +108,18 @@ class SharedViewModel @Inject constructor(private val todoRepository: TodoReposi
         }
     }
 
+    private fun deleteTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val todoTask = TodoTask(
+                id = id.value,
+                title = title.value,
+                description = description.value,
+                priority = priority.value
+            )
+            todoRepository.deleteTask(todoTask = todoTask)
+        }
+    }
+
     fun handleDatabaseActions(action: Action) {
         when (action) {
             Action.ADD -> {
@@ -117,7 +129,7 @@ class SharedViewModel @Inject constructor(private val todoRepository: TodoReposi
                 updateTask()
             }
             Action.DELETE -> {
-                //todo implement delete
+                deleteTask()
             }
             Action.DELETE_ALL -> {
                 //todo implement delete all
