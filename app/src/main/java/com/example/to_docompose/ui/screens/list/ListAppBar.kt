@@ -24,7 +24,6 @@ import com.example.to_docompose.data.models.Priority
 import com.example.to_docompose.ui.theme.*
 import com.example.to_docompose.ui.viewmodels.SharedViewModel
 import com.example.to_docompose.util.SearchAppBarState
-import com.example.to_docompose.util.TrailingIconState
 
 @Composable
 fun ListAppbar(
@@ -52,7 +51,9 @@ fun ListAppbar(
                     sharedViewModel.searchAppBarState.value = SearchAppBarState.CLOSED
                     sharedViewModel.searchTextState.value = ""
                 },
-                onSearchClick = {}
+                onSearchClick = {
+                    sharedViewModel.searchDatabase(it)
+                }
             )
         }
     }
