@@ -7,9 +7,10 @@ import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.example.to_docompose.navigation.destinations.listComposable
+import com.example.to_docompose.navigation.destinations.splashscreenComposable
 import com.example.to_docompose.navigation.destinations.taskComposable
 import com.example.to_docompose.ui.viewmodels.SharedViewModel
-import com.example.to_docompose.util.Constants.LIST_SCREEN
+import com.example.to_docompose.util.Constants.SPLASH_SCREEN
 
 @ExperimentalAnimationApi
 @ExperimentalMaterialApi
@@ -24,8 +25,11 @@ fun SetupNavigation(
 
     NavHost(
         navController = navHostController,
-        startDestination = LIST_SCREEN
+        startDestination = SPLASH_SCREEN
     ) {
+        splashscreenComposable(
+            navigateToListScreen = screen.splashScreen
+        )
         listComposable(
             navigateToTaskScreen = screen.task,
             sharedViewModel = sharedViewModel
