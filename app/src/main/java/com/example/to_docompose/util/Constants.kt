@@ -17,4 +17,6 @@ object Constants {
 
     const val SPLASH_SCREEN = "splash_screen"
     const val SPLASH_SCREEN_DELAY = 3000L
+
+    const val NAVIGATION_ANIMATION_DURATION = 300
 }
