@@ -2,11 +2,10 @@ package com.example.to_docompose.ui.screens.task
 
 import android.content.Context
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
-import androidx.activity.compose.LocalOnBackPressedDispatcherOwner
+import androidx.activity.compose.BackHandler
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.to_docompose.R
 import com.example.to_docompose.data.models.Priority
@@ -26,7 +25,10 @@ fun TaskScreen(
 
     val context = LocalContext.current
 
-    BackButtonHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
+//    BackButtonHandler(onBackPressed = { navigateToListScreen(Action.NO_ACTION) })
+    BackHandler {
+        navigateToListScreen(Action.NO_ACTION)
+    }
 
     Scaffold(
         topBar = {
@@ -72,26 +74,26 @@ fun displayToast(context: Context) {
     ).show()
 }
 
-@Composable
-fun BackButtonHandler(
-    onBackPressDispatcher: OnBackPressedDispatcher? = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
-    onBackPressed: () -> Unit,
-) {
-    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
-
-    val backCallback = remember {
-        object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                currentOnBackPressed()
-            }
-        }
-    }
-
-    DisposableEffect(key1 = onBackPressDispatcher) {
-        onBackPressDispatcher?.addCallback(backCallback)
-
-        onDispose {
-            backCallback.remove()
-        }
-    }
-}
+//@Composable
+//fun BackButtonHandler(
+//    onBackPressDispatcher: OnBackPressedDispatcher? = LocalOnBackPressedDispatcherOwner.current?.onBackPressedDispatcher,
+//    onBackPressed: () -> Unit,
+//) {
+//    val currentOnBackPressed by rememberUpdatedState(newValue = onBackPressed)
+//
+//    val backCallback = remember {
+//        object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                currentOnBackPressed()
+//            }
+//        }
+//    }
+//
+//    DisposableEffect(key1 = onBackPressDispatcher) {
+//        onBackPressDispatcher?.addCallback(backCallback)
+//
+//        onDispose {
+//            backCallback.remove()
+//        }
+//    }
+//}
